@@ -16,3 +16,5 @@ julia> include("mg2js.jl")
 julia> create_graph_database(g)
 julia> run(`open -a safari visualizer.html`)
 ```
+
+![Farmers Market Finder Demo](example.gif)
