@@ -1,6 +1,6 @@
 using DataStructures, GraphPlot
 
-function create_graph_database(graph::Any)
+function create_graph_database(graph::Any, graph_type::String)
 
     if isfile("graph_database.js")
         run(`rm graph_database.js`)
@@ -35,13 +35,22 @@ function create_graph_database(graph::Any)
 
     print(graph_file, string("var graph_nodes = ["))
 
-    #nlist = [collect(i*20-19:i*20) for i=1:(Int(floor(length(vertices_arr)/20))+20)]
-    x, y = shell_layout(graph)
-    x*=50
-    y*=50
+    center_vertex = 1
+    if graph_type == "circles"
+        nlist = [collect(i*20-19:i*20) for i=1:(Int(floor(length(vertices(graph))/20))+20)]
+        x, y = shell_layout(graph, nlist)
+        center_vertex = collect(filter(x->length(neighbors(g, x))==Δ(g), keys(g.vprops)))[1]
+    elseif graph_type == "spring"
+        x, y = spring_layout(graph)
+    end
+    x*=500
+    y*=500
 
     for (i, vertex) in enumerate(collect(keys(graph.vprops)))
         v_info = props(graph, vertex)
+        if graph_type == "circles" && vertex == center_vertex
+            x[i] = y[i] = 100
+        end
         msg = string("{id: ", vertex, ", label: '", vertex ,"', title: '<b>name:</b> ", string(v_info[:name]), "', x:", x[i], ", y:", y[i], ", color: {border: '", v_info[:colour], "', background: ", "'#999DA0", "'}}")
         if i!=length(collect(keys(graph.vprops)))
             print(graph_file, string(msg, ","))
