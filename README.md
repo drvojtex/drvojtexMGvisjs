@@ -13,7 +13,7 @@ julia> for i=1:length(vertices(g))
            set_props!(g, i, Dict(:name => names[i], :colour => colours[i]))
        end
 julia> include("mg2js.jl")
-julia> create_graph_database(g)
+julia> create_graph_database(g, "circles")  # create_graph_database(g, "spring")
 julia> run(`open -a safari visualizer.html`)
 ```
 
