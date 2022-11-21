@@ -1,4 +1,4 @@
-# kozvojtexMGvisjs
+# drvojtexMGvisjs
 
 ```julia
 julia> using LightGraphs, MetaGraphs
